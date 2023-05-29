@@ -64,7 +64,7 @@ menu.add_cascade("Menu")
 |-----------| ------------|
 | **master** | define the master window, can be **root or toplevel** only |
 | bg_color | set the bg color of the menu bar |
-| title_bar_color | set color to the header (only works with window 11), `RGB order: 0x00rggbb` |
+| title_bar_color | set color to the header (only works with window 11), `RGB order: 0x00rrggbb` |
 | width | set width of the menu bar buttons |
 | padx | set internal padding between menu bar buttons |
 | x_offset | set the x distance from the header |
