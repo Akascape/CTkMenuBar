@@ -27,7 +27,7 @@ menu.add_cascade("Menu")
 ```
 
 # Methods
-- .add_cancade(text="Menu_Name", *ctk_button_kwargs)
+- **.add_cancade(text="Menu_Name", ctk_button_args...)**: add new menu button in the menu bar
 - .configure(*frame_kwargs)
 
 # Arguments
@@ -57,7 +57,7 @@ menu.add_cascade("Menu")
 ```
 
 # Methods
-- .add_cancade(text="Menu_Name", *ctk_button_kwargs)
+- **.add_cancade(text="Menu_Name", ctk_button_kwargs...)**: add new menu button in the menu bar
 
 # Arguments
 | Parameter | Description |
@@ -69,4 +69,39 @@ menu.add_cascade("Menu")
 | padx | set internal padding between menu bar buttons |
 | x_offset | set the x distance from the header |
 | y_offset | set the y distance from the header |
+| _*other frame parameters_ | other ctk frame parameters can also be passed |
+
+- CustomDropdownMenu
+
+# Usage
+```python
+from CTkMenuBar import *
+...
+dropdown = CustomDropdownMenu(widget=button)
+dropdown.add_option(option="value") 
+dropdown.add_separator() 
+submenu = dropdown.add_submenu("submenu") 
+subment.add_option(option="value") 
+...
+```
+
+# Methods
+- **.add_option(option, command)**: add option to the dropdown and attach the command
+- **.add_separator()**: add a separator line between the options
+- **.add_submenu(submenu_name)**: add a submenu as option
+
+# Arguments
+| Parameter | Description |
+|-----------| ------------|
+| **widget** | attach the dropdown to the cascade widget |
+| bg_color | set the bg color of the dropdown |
+| fg_color | set the option button fg color |
+| text_color | set the text color |
+| hover_color | set hover color of the option button |
+| separator_color | change the separator line color |
+| font | change the font of the text |
+| width | set width of the dropdown |
+| height | set height of the dropdown |
+| padx | set padding in x for the dropdown frame |
+| pady | set padding in y for the dropdown frame |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
