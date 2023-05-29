@@ -13,7 +13,7 @@ Modern menu bar widget library for customtkinter.
 
 **Download the source code, paste the `CTkMenuBar` folder in the directory where your program is present.**
 ## Menu Types
-- ## **CTkMenuBar**
+- ## CTkMenuBar
 
 ![menubar](https://github.com/Akascape/CTkMenuBar/assets/89206401/dd67a97b-d75d-4c7a-8a96-03535511e510)
 
@@ -41,7 +41,7 @@ menu.add_cascade("Menu")
 | pady | set internal padding in top and bottom of menu bar |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
-- ## **CTkTitleMenu**
+- ## CTkTitleMenu
 
 _This title menu is only supported in windows OS!_
 
