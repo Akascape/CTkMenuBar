@@ -73,6 +73,8 @@ menu.add_cascade("Menu")
 
 ## CustomDropdownMenu
 
+This is the dropdown menu class which is used by both ctkmenubar and ctktitlemenu. 
+
 ### Usage
 ```python
 from CTkMenuBar import *
