@@ -15,7 +15,7 @@ Modern menu bar widget library for customtkinter.
 ## Menu Types
 - ## CTkMenuBar
 
-![menubar](https://github.com/Akascape/CTkMenuBar/assets/89206401/dd67a97b-d75d-4c7a-8a96-03535511e510)
+![menubar](https://github.com/Akascape/CTkMenuBar/assets/89206401/02c512b2-557f-4d59-86e0-a6eb9da3696c)
 
 ### Usage
 ```python
@@ -45,7 +45,7 @@ menu.add_cascade("Menu")
 
 _This title menu is only supported in windows OS!_
 
-![titlebar](https://github.com/Akascape/CTkMenuBar/assets/89206401/345901bb-1428-4d1a-bf3e-5c4c46f03f31)
+![titlebar](https://github.com/Akascape/CTkMenuBar/assets/89206401/da6cd858-f700-476c-a2f0-93a1c6335a4d)
 
 ### Usage
 ```python
