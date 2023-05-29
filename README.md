@@ -106,3 +106,5 @@ subment.add_option(option="value")
 | padx | set padding in x for the dropdown frame |
 | pady | set padding in y for the dropdown frame |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
+
+_Credits goes to [LucianoSaldivia](https://github.com/LucianoSaldivia) for providing this dropdown menu class._
