@@ -12,12 +12,12 @@ Modern menu bar widget library for customtkinter.
 ### [<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/Akascape/CTkMenuBar?&color=white&label=Download%20Source%20Code&logo=Python&logoColor=yellow&style=for-the-badge"  width="400">](https://github.com/Akascape/CTkMenuBar/archive/refs/heads/main.zip)
 
 **Download the source code, paste the `CTkMenuBar` folder in the directory where your program is present.**
-## Widget Types:
-- **CTkMenuBar**
+## Menu Types
+- ## **CTkMenuBar**
 
 ![menubar](https://github.com/Akascape/CTkMenuBar/assets/89206401/dd67a97b-d75d-4c7a-8a96-03535511e510)
 
-# Usage
+### Usage
 ```python
 from CTkMenuBar import *
 ...
@@ -26,11 +26,11 @@ menu.add_cascade("Menu")
 ...
 ```
 
-# Methods
+### Methods
 - **.add_cancade(text="Menu_Name", ctk_button_args...)**: add new menu button in the menu bar
 - .configure(*frame_kwargs)
 
-# Arguments
+### Arguments
 | Parameter | Description |
 |-----------| ------------|
 | **master** | define the master widget, can be root or frame |
@@ -41,13 +41,13 @@ menu.add_cascade("Menu")
 | pady | set internal padding in top and bottom of menu bar |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
-- **CTkTitleMenu**
+- ## **CTkTitleMenu**
 
-_This title menu is only supported in windows OS_
+_This title menu is only supported in windows OS!_
 
 ![titlebar](https://github.com/Akascape/CTkMenuBar/assets/89206401/345901bb-1428-4d1a-bf3e-5c4c46f03f31)
 
-# Usage
+### Usage
 ```python
 from CTkMenuBar import *
 ...
@@ -56,10 +56,10 @@ menu.add_cascade("Menu")
 ...
 ```
 
-# Methods
+### Methods
 - **.add_cancade(text="Menu_Name", ctk_button_kwargs...)**: add new menu button in the menu bar
 
-# Arguments
+### Arguments
 | Parameter | Description |
 |-----------| ------------|
 | **master** | define the master window, can be **root or toplevel** only |
@@ -71,9 +71,9 @@ menu.add_cascade("Menu")
 | y_offset | set the y distance from the header |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
-- CustomDropdownMenu
+- ## **CustomDropdownMenu**
 
-# Usage
+### Usage
 ```python
 from CTkMenuBar import *
 ...
@@ -85,12 +85,12 @@ subment.add_option(option="value")
 ...
 ```
 
-# Methods
+### Methods
 - **.add_option(option, command)**: add option to the dropdown and attach the command
 - **.add_separator()**: add a separator line between the options
 - **.add_submenu(submenu_name)**: add a submenu as option
 
-# Arguments
+### Arguments
 | Parameter | Description |
 |-----------| ------------|
 | **widget** | attach the dropdown to the cascade widget |
