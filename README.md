@@ -4,7 +4,7 @@ Modern menu bar widget library for customtkinter.
 ## Features
 - Custom dropdown menu
 - Add menu in top of title bar
-- Classic and menubar menubar with all customisability
+- Classic and modern menubar with all customisability
 - Add commands and submenus 
 
 ## Installation
