@@ -71,7 +71,7 @@ menu.add_cascade("Menu")
 | y_offset | set the y distance from the header |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
-# CustomDropdownMenu
+## CustomDropdownMenu
 
 ### Usage
 ```python
