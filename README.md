@@ -94,6 +94,7 @@ subment.add_option(option="value")
 | Parameter | Description |
 |-----------| ------------|
 | **widget** | attach the dropdown to the cascade widget |
+| master | *optional*, change the spawn window if required |
 | bg_color | set the bg color of the dropdown |
 | fg_color | set the option button fg color |
 | text_color | set the text color |
