@@ -36,7 +36,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
             raise TypeError("Only root windows/toplevels can be passed as the master!")
         
         self.master.minsize(200,100)
-        self.overrideredirect(True)
+        self.after(100, lambda: self.overrideredirect(True))
         
         if title_bar_color=="default":
             if customtkinter.get_appearance_mode()=="Light":
@@ -48,9 +48,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.attributes("-transparentcolor", self.transparent_color)
         self.resizable(True, True)
         self.transient(self.master)
-        self.menu = []
-        self.master.attributes("-fullscreen", 1)
-        self.master.attributes("-fullscreen", 0)    
+        self.menu = []   
         self.config(background=self.transparent_color)
         self.caption_color = title_bar_color
         self.change_header_color(self.caption_color)
