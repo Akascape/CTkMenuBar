@@ -68,10 +68,8 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         
         self.master.bind("<Configure>", lambda _: self.change_dimension())
         self.num = 0
-        
-        self.master.attributes("-topmost", 1)
+
         self.master.bind("<Map>", lambda e: self.withdraw)
-        self.after(100, lambda: self.master.attributes("-topmost", 0))
 
     def add_cascade(self, text=None, **kwargs):
     
