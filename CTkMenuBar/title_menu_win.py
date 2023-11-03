@@ -20,7 +20,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         super().__init__()
 
         if not sys.platform.startswith("win"):
-            raise OSError("This title menu is only for windows platform, not supported on other systems. \nTry the CTkMenuBar instead!")
+            raise OSError("This title menu works only in windows platform, not supported on your system! \nTry the CTkMenuBar instead...")
         
         self.after(10)
         self.master = master
@@ -48,7 +48,8 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.attributes("-transparentcolor", self.transparent_color)
         self.resizable(True, True)
         self.transient(self.master)
-        self.menu = []   
+        self.menu = []
+
         self.config(background=self.transparent_color)
         self.caption_color = title_bar_color
         self.change_header_color(self.caption_color)
@@ -67,8 +68,9 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.padding = padx
         
         self.master.bind("<Configure>", lambda _: self.change_dimension())
+        self.master.bind("<Destroy>", lambda _: self.destroy())
         self.num = 0
-
+        
         self.master.bind("<Map>", lambda e: self.withdraw)
 
     def add_cascade(self, text=None, **kwargs):

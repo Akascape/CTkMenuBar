@@ -1,7 +1,7 @@
 """
 Custom Dropdown Menu for CTkMenuBar
 Original Author: LucianoSaldivia | https://github.com/LucianoSaldivia
-Modified by: Akascape
+Modified by: Akash Bora (Akascape)
 """
 
 import customtkinter
@@ -32,22 +32,22 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  text_color: str | tuple[str, str] = ["black","white"],
                  fg_color: str | tuple[str, str] = "transparent",
                  hover_color: str | tuple[str, str] = ["grey75","grey25"], 
-                 font: customtkinter.CTkFont = ("helvetica", 10),
+                 font: customtkinter.CTkFont = ("helvetica", 12),
                  padx: int = 3,
                  pady: int = 3,
                  **kwargs):
         
         if widget.master.winfo_name().startswith("!ctktitlemenu"):
-            widget.master.master.bind("<Button-1>", self._checkIfMouseLeft, add="+")
+            widget.master.master.bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
             master = widget.master if master is None else master
             widget.master.menu.append(self)
             
         elif widget.master.winfo_name().startswith("!ctkmenubar"):
-            widget.winfo_toplevel().bind("<Double-Button-1>", self._checkIfMouseLeft, add="+")
+            widget.winfo_toplevel().bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
             master = widget.master.master if master is None else master
             widget.master.menu.append(self)
         else:
-            widget.winfo_toplevel().bind("<Double-Button-1>", self._checkIfMouseLeft, add="+")
+            widget.winfo_toplevel().bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
             master = widget.master if master is None else master
             
         super().__init__(
@@ -75,7 +75,8 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         
     def selectOption(self, command) -> None:
         self._hideAllMenus()
-        command()
+        if command:
+            command()
         
     def dummy():
         pass
@@ -99,8 +100,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             fill="both", 
             expand=True,
             padx=3+(self.corner_radius/5),
-            pady=3+(self.corner_radius/5),
-        )
+            pady=3+(self.corner_radius/5))
         
     def add_submenu(self, submenu_name: str, **kwargs) -> "CustomDropdownMenu":
         submenuButtonSeed = _CDMSubmenuButton(self, text=submenu_name, anchor="w",
@@ -117,22 +117,25 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             widget=submenuButtonSeed,
             fg_color=self.fg_color,
             hover_color=self.hover_color,
-            font=self.font,
-        )
+            font=self.font)
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
         
-        submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, submenu._show))
-        
+        submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)))
         submenuButtonSeed.pack(
             side="top",
             fill="both", 
             expand=True,
             padx=3+(self.corner_radius/5),
-            pady=3+(self.corner_radius/5),
-        )
+            pady=3+(self.corner_radius/5))
         return submenu
     
+    def _show_submenu(self, parent) ->None:
+        subMenus = parent._getSubMenus()
+        for i in subMenus:
+            i._hide()
+        self._show()
+        
     def add_separator(self) -> None:
         separator = customtkinter.CTkFrame(
             master=self, 
@@ -150,14 +153,13 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         if isinstance(self.menu_seed_object, _CDMSubmenuButton):
             self.place(
                 in_=self.menu_seed_object.parent_menu,
-                x=self.menu_seed_object.winfo_x() + self.menu_seed_object.winfo_width() + self.padx - 1,
-                y=self.menu_seed_object.winfo_y() - self.pady,
-            )
+                x=self.menu_seed_object.winfo_x() + self.menu_seed_object.winfo_width() + self.padx +1,
+                y=self.menu_seed_object.winfo_y() - self.pady)
         else:
             self.place(
                 x=self.menu_seed_object.winfo_x() + self.padx ,
-                y=self.menu_seed_object.winfo_y() + self.menu_seed_object.winfo_height() + self.pady,
-            )
+                y=self.menu_seed_object.winfo_y() + self.menu_seed_object.winfo_height() + self.pady)
+        self.lift()
         self.focus()
         
     def _hide(self, *args, **kwargs) -> None:
@@ -186,7 +188,6 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                 option.submenu._hide()
 
     def toggleShow(self, *args, **kwargs) -> None:
-
         widget_base = self.menu_seed_object.master.winfo_name()
         if widget_base.startswith("!ctktitlemenu") or widget_base.startswith("!ctkmenubar"):
             for i in self.menu_seed_object.master.menu:
@@ -194,6 +195,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             
         if not self.winfo_manager():
             self._show()
+            self.lift()
         else:
             self._hideChildrenMenus()
             self._hide()
@@ -224,10 +226,10 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             self.winfo_rooty() < y_root < self.winfo_rooty()+self.winfo_height()
     
     def _checkIfMouseLeft(self, event: tk.Event=None) -> None:
+        if not self.winfo_viewable():
+            return
         if not self._get_coordinates(event.x_root, event.y_root):
-            
             if isinstance(self.menu_seed_object, _CDMSubmenuButton) and not self.menu_seed_object.parent_menu._get_coordinates(event.x_root, event.y_root):
-
                 subMenus = self._getSubMenus()
                 if subMenus == [] or all((not submenu._get_coordinates(event.x_root, event.y_root)) for submenu in subMenus):
                     self._hideAllMenus()
