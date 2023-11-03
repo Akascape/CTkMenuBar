@@ -2,16 +2,18 @@
 Modern menu bar widget library for customtkinter.
 
 ## Features
-- Custom dropdown menu
+- Custom dropdown menus
 - Add menu in top of title bar
-- Classic and modern menubar with all customisability
-- Add commands and submenus 
+- Classic and modern menubar with full customisability
+- Add commands and submenus
 
 ## Installation
 
+```
+pip install CTkMenuBar
+```
 ### [<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/Akascape/CTkMenuBar?&color=white&label=Download%20Source%20Code&logo=Python&logoColor=yellow&style=for-the-badge"  width="400">](https://github.com/Akascape/CTkMenuBar/archive/refs/heads/main.zip)
 
-**Download the source code, paste the `CTkMenuBar` folder in the directory where your program is present.**
 ## Menu Types
 - ## CTkMenuBar
 
@@ -73,7 +75,7 @@ menu.add_cascade("Menu")
 
 ## CustomDropdownMenu
 
-This is the dropdown menu class which is used by both ctkmenubar and ctktitlemenu. 
+This is the common dropdown menu class which is used by both ctkmenubar and ctktitlemenu. 
 
 ### Usage
 ```python
