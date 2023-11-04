@@ -140,6 +140,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         separator = customtkinter.CTkFrame(
             master=self, 
             height=2,
+            width=self.width,
             fg_color=self.separator_color, 
             border_width=0
         )
