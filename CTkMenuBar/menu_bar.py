@@ -63,5 +63,5 @@ class CTkMenuBar(customtkinter.CTkFrame):
     
     def configure(self, **kwargs):
         if "bg_color" in kwargs:
-           self.configure(fg_color=kwargs.pop("bg_color"))
-        self.configure(**kwargs)
+           super().configure(fg_color=kwargs.pop("bg_color"))
+        super().configure(**kwargs)
