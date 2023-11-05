@@ -58,6 +58,9 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             corner_radius=corner_radius,
             **kwargs)
         
+        self.border_color = border_color
+        self.border_width = border_width
+        self.bg_color = bg_color
         self.corner_radius = corner_radius
         self.menu_seed_object = widget
         self.master = master
@@ -117,7 +120,13 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             widget=submenuButtonSeed,
             fg_color=self.fg_color,
             hover_color=self.hover_color,
+            corner_radius=self.corner_radius,
+            border_width=self.border_width,
+            border_color=self.border_color,
+            separator_color=self.separator_color,
+            text_color=self.text_color,
             font=self.font)
+        
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
         
