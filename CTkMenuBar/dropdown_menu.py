@@ -4,6 +4,7 @@ Original Author: LucianoSaldivia | https://github.com/LucianoSaldivia
 Modified by: Akash Bora (Akascape)
 """
 
+from __future__ import annotations
 import customtkinter
 from functools import partial
 import tkinter as tk
