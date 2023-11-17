@@ -120,6 +120,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             width=self.width,
             widget=submenuButtonSeed,
             fg_color=self.fg_color,
+            bg_color=self.bg_color,
             hover_color=self.hover_color,
             corner_radius=self.corner_radius,
             border_width=self.border_width,
