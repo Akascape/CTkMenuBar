@@ -155,7 +155,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             width=self.width,
             bg_color=self.separator_color, 
             fg_color=self.separator_color, 
-            border_width=0
+            border_width=0,
         )
         separator.pack(
             side="top",
