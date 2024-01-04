@@ -26,7 +26,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  border_width: int = 1,
                  width: int = 150,
                  height: int = 25,
-                 bg_color = None,
+                 bg_color: str | tuple[str, str] = "transparent",
                  corner_radius: int = 10,
                  border_color: str | tuple[str, str] = "grey50",
                  separator_color: str | tuple[str, str] = ["grey80","grey20"],
@@ -67,6 +67,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         self.master = master
         self.menu_seed_object.configure(command=self.toggleShow)
         self.fg_color = fg_color
+        self.bg_color = bg_color
         self.text_color = text_color
         self.hover_color = hover_color
         self.font = font
@@ -119,8 +120,8 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             height=self.height,
             width=self.width,
             widget=submenuButtonSeed,
-            fg_color=self.fg_color,
             bg_color=self.bg_color,
+            fg_color=self.fg_color,
             hover_color=self.hover_color,
             corner_radius=self.corner_radius,
             border_width=self.border_width,
@@ -152,6 +153,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             master=self, 
             height=2,
             width=self.width,
+            bg_color=self.separator_color, 
             fg_color=self.separator_color, 
             border_width=0
         )
@@ -213,9 +215,11 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             self._hide()
                 
     def _configureButton(self, button: customtkinter.CTkButton) -> None:
-        button.configure(fg_color="transparent")
+        button.configure(fg_color="transparent", bg_color="transparent")
         if self.fg_color:
             button.configure(fg_color=self.fg_color)
+        if self.bg_color:
+            button.configure(bg_color=self.bg_color)
         if self.hover_color:
             button.configure(hover_color=self.hover_color)
         if self.font:
