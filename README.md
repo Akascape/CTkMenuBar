@@ -59,7 +59,7 @@ menu.add_cascade("Menu")
 ```
 
 ### Methods
-- **.add_cancade(text, ctk_button_kwargs...)**: add new menu button in the menu bar
+- **.add_cascade(text, ctk_button_kwargs...)**: add new menu button in the menu bar
 
 ### Arguments
 | Parameter | Description |
@@ -85,7 +85,7 @@ dropdown = CustomDropdownMenu(widget=button)
 dropdown.add_option(option="value") 
 dropdown.add_separator() 
 submenu = dropdown.add_submenu("submenu") 
-subment.add_option(option="value") 
+submenu.add_option(option="value") 
 ...
 ```
 
