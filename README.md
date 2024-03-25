@@ -29,7 +29,7 @@ menu.add_cascade("Menu")
 ```
 
 ### Methods
-- **.add_cancade(text, ctk_button_args...)**: add new menu button in the menu bar
+- **.add_cascade(text, ctk_button_args...)**: add new menu button in the menu bar
 - .configure(*frame_kwargs)
 
 ### Arguments
