@@ -11,10 +11,10 @@ class CTkMenuBar(customtkinter.CTkFrame):
         self,
         master,
         bg_color = ["white","black"],
-        height = 25,
-        width = 10,
-        padx = 5,
-        pady = 2,
+        height: int = 25,
+        width: int = 10,
+        padx: int = 5,
+        pady: int = 2,
         **kwargs):
 
         if master.winfo_name().startswith("!ctkframe"):
@@ -32,6 +32,7 @@ class CTkMenuBar(customtkinter.CTkFrame):
         self.menu = []
         self.padx = padx
         self.pady = pady
+
         super().pack(anchor="n", fill="x")
 
     def add_cascade(self, text=None, **kwargs):
@@ -57,6 +58,7 @@ class CTkMenuBar(customtkinter.CTkFrame):
                                                    text_color=text_color, width=self.width,
                                                    height=self.height, anchor=anchor, **kwargs)
         self.menu_button.grid(row=0, column=self.num, padx=(self.padx,0), pady=self.pady)
+        
         self.num += 1
 
         return self.menu_button

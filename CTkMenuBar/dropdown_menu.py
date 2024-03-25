@@ -26,7 +26,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  border_width: int = 1,
                  width: int = 150,
                  height: int = 25,
-                 bg_color = None,
+                 bg_color: str | tuple[str, str] = None,
                  corner_radius: int = 10,
                  border_color: str | tuple[str, str] = "grey50",
                  separator_color: str | tuple[str, str] = ["grey80","grey20"],
@@ -36,19 +36,23 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  font: customtkinter.CTkFont = ("helvetica", 12),
                  padx: int = 3,
                  pady: int = 3,
+                 cursor: str = "hand2",
                  **kwargs):
         
         if widget.master.winfo_name().startswith("!ctktitlemenu"):
             widget.master.master.bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
+            widget.master.master.bind("<Button-1>", self._checkIfMouseLeft, add="+")
             master = widget.master if master is None else master
             widget.master.menu.append(self)
             
         elif widget.master.winfo_name().startswith("!ctkmenubar"):
             widget.winfo_toplevel().bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
+            widget.winfo_toplevel().bind("<Button-1>", self._checkIfMouseLeft, add="+")
             master = widget.master.master if master is None else master
             widget.master.menu.append(self)
         else:
             widget.winfo_toplevel().bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
+            widget.winfo_toplevel().bind("<Button-1>", self._checkIfMouseLeft, add="+")
             master = widget.master if master is None else master
             
         super().__init__(
@@ -58,7 +62,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             border_color=border_color,
             corner_radius=corner_radius,
             **kwargs)
-        
+
         self.border_color = border_color
         self.border_width = border_width
         self.bg_color = bg_color
@@ -74,6 +78,9 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         self.width = width
         self.padx = padx
         self.pady = pady
+        self.cursor = cursor
+        self.hovered = False
+
         self.separator_color = separator_color
         self._options_list: list[_CDMOptionButton | _CDMSubmenuButton] = []
         
@@ -94,6 +101,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             anchor="w",
             text_color=self.text_color,
             command=partial(self.selectOption, command), **kwargs)
+        optionButton.configure(cursor=self.cursor)
         
         optionButton.setParentMenu(self)
         self._options_list.append(optionButton)
@@ -106,6 +114,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         
+    
     def add_submenu(self, submenu_name: str, **kwargs) -> "CustomDropdownMenu":
         submenuButtonSeed = _CDMSubmenuButton(self, text=submenu_name, anchor="w",
                                               text_color=self.text_color,
@@ -131,8 +140,11 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
-        
+        submenu.bind("<Enter>", lambda e: submenu._show_submenu(self, hovered=True))
         submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)))
+        submenuButtonSeed.bind("<Leave>", lambda e: self.after(500, lambda: submenu._left(self)))
+        submenuButtonSeed.configure(cursor=self.cursor)
+        
         submenuButtonSeed.pack(
             side="top",
             fill="both", 
@@ -140,12 +152,25 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         return submenu
-    
-    def _show_submenu(self, parent) ->None:
+
+    def _left(self, parent):
+        if parent.hovered:
+            return
         subMenus = parent._getSubMenus()
+        
         for i in subMenus:
             i._hide()
+
+    def _show_submenu(self, parent, hovered=False) ->None:
+        parent.hovered = hovered
+        
+        subMenus = parent._getSubMenus()
+        
+        for i in subMenus:
+            i._hide()
+
         self._show()
+            
         
     def add_separator(self) -> None:
         separator = customtkinter.CTkFrame(
@@ -157,20 +182,22 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         )
         separator.pack(
             side="top",
-            fill="x", 
+            fill="x",
             expand=True,
         )
 
     def _show(self, *args, **kwargs) -> None:
+        dpi = self._get_widget_scaling()
         if isinstance(self.menu_seed_object, _CDMSubmenuButton):
             self.place(
                 in_=self.menu_seed_object.parent_menu,
-                x=self.menu_seed_object.winfo_x() + self.menu_seed_object.winfo_width() + self.padx +1,
-                y=self.menu_seed_object.winfo_y() - self.pady)
+                x=(self.menu_seed_object.winfo_x() + self.menu_seed_object.winfo_width())/dpi + self.padx +1,
+                y=self.menu_seed_object.winfo_y()/dpi - self.pady)
+
         else:
             self.place(
-                x=self.menu_seed_object.winfo_x() + self.padx ,
-                y=self.menu_seed_object.winfo_y() + self.menu_seed_object.winfo_height() + self.pady)
+                x=self.menu_seed_object.winfo_x()/dpi + self.padx,
+                y=(self.menu_seed_object.winfo_y() + self.menu_seed_object.winfo_height())/dpi + self.pady)
         self.lift()
         self.focus()
         
@@ -240,6 +267,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
     def _checkIfMouseLeft(self, event: tk.Event=None) -> None:
         if not self.winfo_viewable():
             return
+        
         if not self._get_coordinates(event.x_root, event.y_root):
             if isinstance(self.menu_seed_object, _CDMSubmenuButton) and not self.menu_seed_object.parent_menu._get_coordinates(event.x_root, event.y_root):
                 subMenus = self._getSubMenus()

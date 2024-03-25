@@ -66,13 +66,16 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
                         self.x_offset += 7
             
         self.padding = padx
-        
+  
         self.master.bind("<Configure>", lambda _: self.change_dimension())
-        self.master.bind("<Destroy>", lambda _: self.destroy())
+        self.master.bind("<Destroy>", lambda _: super().destroy() if not self.master.winfo_viewable() else None)
         self.num = 0
         
         self.master.bind("<Map>", lambda e: self.withdraw)
 
+    def destroy(self):
+        raise NotImplementedError("You cannot destroy this widget without destroying the master window")
+        
     def add_cascade(self, text=None, **kwargs):
     
         if not "fg_color" in kwargs:
