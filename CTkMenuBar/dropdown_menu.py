@@ -32,7 +32,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  separator_color: str | tuple[str, str] = ["grey80","grey20"],
                  text_color: str | tuple[str, str] = ["black","white"],
                  fg_color: str | tuple[str, str] = "transparent",
-                 hover_color: str | tuple[str, str] = ["grey75","grey25"], 
+                 hover_color: str | tuple[str, str] = ["grey75","grey25"],
                  font: customtkinter.CTkFont = ("helvetica", 12),
                  padx: int = 3,
                  pady: int = 3,
@@ -161,7 +161,8 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         for submenu in subMenus:
             for widget in submenu.winfo_children():
                 widget.bind("<Enter>", lambda e, submenu=submenu: submenu._show_submenu(self, hovered=True))
-            
+        super().update()
+        
     def _left(self, parent):
         if parent.hovered:
             return
@@ -291,3 +292,94 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                 subMenus = self._getSubMenus()
                 if subMenus == [] or all((not submenu._get_coordinates(event.x_root, event.y_root)) for submenu in subMenus):
                     self._hideAllMenus()
+
+    def configure(self, **kwargs):
+      
+        if "hover_color" in kwargs:
+            self.hover_color = kwargs["hover_color"]
+
+        if "font" in kwargs:
+            self.font = kwargs["font"]
+
+        if "text_color" in kwargs:
+            self.text_color = kwargs["text_color"]
+
+        if "bg_color" in kwargs:
+            self.bg_color = kwargs.pop("bg_color")
+            super().configure(fg_color=self.bg_color)
+
+        if "fg_color" in kwargs:
+            self.fg_color = kwargs["fg_color"]
+            
+        if "border_color" in kwargs:
+            self.border_color = kwargs.pop("border_color")
+            super().configure(border_color=self.border_color)
+            
+        if "border_width" in kwargs:
+            self.border_width = kwargs.pop("border_width")
+            super().configure(border_width=self.border_width)
+            
+        if "corner_radius" in kwargs:
+            self.corner_radius = kwargs["corner_radius"]
+            super().configure(corner_radius=self.corner_radius)
+
+        if "height" in kwargs:
+            self.height = kwargs["height"]
+
+        if "width" in kwargs:
+            self.width = kwargs["width"]
+
+        if "separator_color" in kwargs:
+            self.separator_color = kwargs.pop("separator_color")
+            for i in self.winfo_children():
+                if type(i) is customtkinter.CTkFrame:
+                    i.configure(fg_color=self.separator_color)
+
+        if "padx" in kwargs:
+            self.padx = kwargs.pop("padx")
+
+        if "pady" in kwargs:
+            self.pady = kwargs.pop("pady")
+
+        for widget in self.winfo_children():
+            if (type(widget) is _CDMOptionButton) or (type(widget) is _CDMSubmenuButton):
+                widget.configure(**kwargs)
+
+    def cget(self, param):
+        if param=="hover_color":
+            return self.hover_color
+
+        if param=="font":
+            return self.font
+
+        if param=="text_color":
+            return self.text_color
+
+        if param=="bg_color":
+            return self.bg_color
+
+        if param=="border_color":
+            return self.border_color 
+            
+        if param=="border_width":
+            return self.border_width
+            
+        if param=="corner_radius":
+            return self.corner_radius
+        
+        if param=="height":
+            return self.height 
+
+        if param=="width":
+            return self.width
+
+        if param=="separator_color":
+            return self.separator_color
+
+        if param=="padx":
+            return self.padx 
+
+        if param=="pady":
+            return self.pady
+
+        return super().cget(param)
