@@ -72,7 +72,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.num = 0
         
         self.master.bind("<Map>", lambda e: self.withdraw)
-
+        
     def add_cascade(self, text=None, **kwargs):
     
         if not "fg_color" in kwargs:

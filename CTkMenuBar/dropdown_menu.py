@@ -102,7 +102,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             text_color=self.text_color,
             command=partial(self.selectOption, command), **kwargs)
         optionButton.configure(cursor=self.cursor)
-        
+                          
         optionButton.setParentMenu(self)
         self._options_list.append(optionButton)
         self._configureButton(optionButton)
@@ -141,8 +141,11 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
         submenu.bind("<Enter>", lambda e: submenu._show_submenu(self, hovered=True))
+        
+        self.after(300, self.update)
+            
         submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)))
-        submenuButtonSeed.bind("<Leave>", lambda e: self.after(500, lambda: submenu._left(self)))
+        submenuButtonSeed.bind("<Leave>", lambda e: self.after(500, lambda: submenu._left(self)), add="+")
         submenuButtonSeed.configure(cursor=self.cursor)
         
         submenuButtonSeed.pack(
@@ -152,16 +155,24 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         return submenu
-
+    
+    def update(self):
+        subMenus = self._getSubMenus()
+        for submenu in subMenus:
+            for widget in submenu.winfo_children():
+                widget.bind("<Enter>", lambda e, submenu=submenu: submenu._show_submenu(self, hovered=True))
+            
     def _left(self, parent):
         if parent.hovered:
             return
+        
         subMenus = parent._getSubMenus()
         
         for i in subMenus:
             i._hide()
 
     def _show_submenu(self, parent, hovered=False) ->None:
+    
         parent.hovered = hovered
         
         subMenus = parent._getSubMenus()
@@ -227,18 +238,20 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                 option.submenu._hide()
 
     def toggleShow(self, *args, **kwargs) -> None:
+    
         widget_base = self.menu_seed_object.master.winfo_name()
         if widget_base.startswith("!ctktitlemenu") or widget_base.startswith("!ctkmenubar"):
             for i in self.menu_seed_object.master.menu:
-                i._hide()
-            
-        if not self.winfo_manager():
+                if i!=self:
+                    i._hide()
+    
+        if not self.winfo_viewable():
             self._show()
             self.lift()
         else:
             self._hideChildrenMenus()
             self._hide()
-                
+            
     def _configureButton(self, button: customtkinter.CTkButton) -> None:
         button.configure(fg_color="transparent")
         if self.fg_color:
