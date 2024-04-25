@@ -93,7 +93,8 @@ submenu.add_option(option="value")
 - **.add_option(option, command)**: add option to the dropdown and attach the command
 - **.add_separator()**: add a separator line between the options
 - **.add_submenu(submenu_name)**: add a submenu as option
-
+- **.configure(**args): change dropdown menu options
+  
 ### Arguments
 | Parameter | Description |
 |-----------| ------------|
