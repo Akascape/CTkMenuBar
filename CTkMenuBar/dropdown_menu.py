@@ -14,10 +14,30 @@ class _CDMOptionButton(customtkinter.CTkButton):
     def setParentMenu(self, menu: "CustomDropdownMenu"):
         self.parent_menu = menu
 
+    def cget(self, param):
+        if param=="option":
+            return self.cget("text")
+        return super().cget(param)
+    
+    def configure(self, **kwargs):
+        if "option" in kwargs:
+            super().configure(text=kwargs.pop("option"))
+        super().configure(**kwargs)
+        
 class _CDMSubmenuButton(_CDMOptionButton):
     def setSubmenu(self, submenu: "CustomDropdownMenu"):
         self.submenu = submenu
-
+        
+    def cget(self, param):
+        if param=="submenu_name":
+            return self.cget("text")
+        return super().cget(param)
+    
+    def configure(self, **kwargs):
+        if "submenu_name" in kwargs:
+            super().configure(text=kwargs.pop("submenu_name"))
+        super().configure(**kwargs)
+        
 class CustomDropdownMenu(customtkinter.CTkFrame):
     
     def __init__(self, 
@@ -113,7 +133,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             expand=True,
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
-        
+        return optionButton
     
     def add_submenu(self, submenu_name: str, **kwargs) -> "CustomDropdownMenu":
         submenuButtonSeed = _CDMSubmenuButton(self, text=submenu_name, anchor="w",
@@ -141,10 +161,9 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
         submenu.bind("<Enter>", lambda e: submenu._show_submenu(self, hovered=True))
-        
-        self.after(300, self.update)
-            
-        submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)))
+  
+        submenu.bind("<Enter>", lambda e, submenu=submenu: submenu._show_submenu(self, hovered=True), add="+")
+        submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)), add="+")
         submenuButtonSeed.bind("<Leave>", lambda e: self.after(500, lambda: submenu._left(self)), add="+")
         submenuButtonSeed.configure(cursor=self.cursor)
         
@@ -155,13 +174,6 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         return submenu
-    
-    def update(self):
-        subMenus = self._getSubMenus()
-        for submenu in subMenus:
-            for widget in submenu.winfo_children():
-                widget.bind("<Enter>", lambda e, submenu=submenu: submenu._show_submenu(self, hovered=True))
-        super().update()
         
     def _left(self, parent):
         if parent.hovered:

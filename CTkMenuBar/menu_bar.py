@@ -35,7 +35,7 @@ class CTkMenuBar(customtkinter.CTkFrame):
 
         super().pack(anchor="n", fill="x")
 
-    def add_cascade(self, text=None, **kwargs):
+    def add_cascade(self, text=None, postcommand=None, **kwargs):
     
         if not "fg_color" in kwargs:
             fg_color = "transparent"
@@ -59,6 +59,9 @@ class CTkMenuBar(customtkinter.CTkFrame):
                                                    height=self.height, anchor=anchor, **kwargs)
         self.menu_button.grid(row=0, column=self.num, padx=(self.padx,0), pady=self.pady)
         
+        if postcommand:
+            self.menu_button.bind("<Button-1>", lambda event: postcommand(), add="+")
+            
         self.num += 1
 
         return self.menu_button

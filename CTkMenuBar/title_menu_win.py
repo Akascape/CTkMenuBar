@@ -72,8 +72,16 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.num = 0
         
         self.master.bind("<Map>", lambda e: self.withdraw)
+
+    def _set_appearance_mode(self, mode_string):
+        if customtkinter.get_appearance_mode()=="Light":
+            self.caption_color = 0xFFFFFF # RGB order: 0xrrggbb             
+        else:
+            self.caption_color = 0x303030 # RGB order: 0xrrggbb
+
+        self.change_header_color(self.caption_color)
         
-    def add_cascade(self, text=None, **kwargs):
+    def add_cascade(self, text=None, postcommand=None, **kwargs):
     
         if not "fg_color" in kwargs:
             fg_color = customtkinter.ThemeManager.theme["CTkFrame"]["fg_color"]
@@ -92,6 +100,9 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.menu_button.grid(row=0, column=self.num, padx=(0, self.padding))
         self.num += 1
 
+        if postcommand:
+            self.menu_button.bind("<Button-1>", lambda event: postcommand(), add="+")
+            
         return self.menu_button
     
     def change_dimension(self):
