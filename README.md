@@ -30,7 +30,7 @@ menu.add_cascade("Menu")
 
 ### Methods
 - **.add_cascade(text, ctk_button_args...)**: add new menu button in the menu bar
-- .configure(*frame_kwargs)
+- **.configure(*frame_kwargs)**
 
 ### Arguments
 | Parameter | Description |
@@ -95,7 +95,7 @@ submenu.add_option(option="value")
 - **.add_option(option, command)**: add option to the dropdown and attach the command
 - **.add_separator()**: add a separator line between the options
 - **.add_submenu(submenu_name)**: add a submenu as option
-- **.configure(**args): change dropdown menu options
+- **.configure(*args)**: change dropdown menu options
   
 ### Arguments
 | Parameter | Description |
