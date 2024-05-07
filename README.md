@@ -41,6 +41,7 @@ menu.add_cascade("Menu")
 | width | set width of the menu bar buttons |
 | padx | set internal padding between menu bar buttons |
 | pady | set internal padding in top and bottom of menu bar |
+| postcommand | add a command before spawing the dropdown |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
 - ## CTkTitleMenu
@@ -71,6 +72,7 @@ menu.add_cascade("Menu")
 | padx | set internal padding between menu bar buttons |
 | x_offset | set the x distance from the header |
 | y_offset | set the y distance from the header |
+| postcommand | add a command before spawing the dropdown |
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
 ## CustomDropdownMenu
