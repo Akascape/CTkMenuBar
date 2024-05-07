@@ -30,7 +30,7 @@ menu.add_cascade("Menu")
 
 ### Methods
 - **.add_cascade(text, ctk_button_args...)**: add new menu button in the menu bar
-- **.configure(*kwargs)**
+- **.configure(*args)**: update parameters 
 
 ### Arguments
 | Parameter | Description |
