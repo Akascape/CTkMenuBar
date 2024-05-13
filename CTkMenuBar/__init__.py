@@ -5,7 +5,7 @@ License: MIT
 Homepage: https://github.com/Akascape/CTkMenuBar
 """
 
-__version__ = '0.7'
+__version__ = '0.8'
 
 from .menu_bar import CTkMenuBar
 from .title_menu_win import CTkTitleMenu

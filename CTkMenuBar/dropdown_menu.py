@@ -100,6 +100,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         self.pady = pady
         self.cursor = cursor
         self.hovered = False
+        self.is_submenu = False
 
         self.separator_color = separator_color
         self._options_list: list[_CDMOptionButton | _CDMSubmenuButton] = []
@@ -133,8 +134,12 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             expand=True,
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
+        
+        if self.is_submenu:
+            optionButton.bind("<Enter>", lambda e, submenu=self: submenu.change_hover(self), add="+")
+   
         return optionButton
-    
+
     def add_submenu(self, submenu_name: str, **kwargs) -> "CustomDropdownMenu":
         submenuButtonSeed = _CDMSubmenuButton(self, text=submenu_name, anchor="w",
                                               text_color=self.text_color,
@@ -160,11 +165,12 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         
         submenuButtonSeed.setSubmenu(submenu=submenu)
         submenuButtonSeed.configure(command=submenu.toggleShow)
-        submenu.bind("<Enter>", lambda e: submenu._show_submenu(self, hovered=True))
-  
-        submenu.bind("<Enter>", lambda e, submenu=submenu: submenu._show_submenu(self, hovered=True), add="+")
-        submenuButtonSeed.bind("<Enter>", lambda e: self.after(500, lambda: submenu._show_submenu(self)), add="+")
-        submenuButtonSeed.bind("<Leave>", lambda e: self.after(500, lambda: submenu._left(self)), add="+")
+        submenu.is_submenu = True
+        
+        submenu.bind("<Enter>", lambda e, sub=self: self.change_hover(self), add="+")
+        submenuButtonSeed.bind("<Enter>", lambda e, sub=submenu, button=submenuButtonSeed: self.after(500, lambda: sub._show_submenu(self, button)), add="+")
+        submenuButtonSeed.bind("<Leave>", lambda e, sub=submenu: self.after(500, lambda: sub._left(self)), add="+")
+        
         submenuButtonSeed.configure(cursor=self.cursor)
         
         submenuButtonSeed.pack(
@@ -176,23 +182,34 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         return submenu
         
     def _left(self, parent):
+  
         if parent.hovered:
+            parent.hovered = False
             return
         
         subMenus = parent._getSubMenus()
         
         for i in subMenus:
             i._hide()
-
-    def _show_submenu(self, parent, hovered=False) ->None:
-    
-        parent.hovered = hovered
+            
+    def change_hover(self, parent):
+        parent.hovered = True
+   
+    def _show_submenu(self, parent, button) ->None:
+        if self.winfo_viewable():
+            return
         
         subMenus = parent._getSubMenus()
         
         for i in subMenus:
             i._hide()
-
+            
+        x,y = self.winfo_pointerxy()
+        widget = self.winfo_containing(x,y)
+    
+        if (str(widget)!=str(button._canvas)) and (str(widget)!=str(button._text_label)) and (str(widget)!=str(button._image_label)):
+            return
+        
         self._show()
             
         
