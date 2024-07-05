@@ -1,10 +1,11 @@
 """
 Menu Bar in Title Bar of customtkinter window
 Author: Akash Bora
+Customized for pywinstyles and Optimized by Mustafa Hilmi YAVUZHAN
 """
 
 import customtkinter
-import sys
+from sys import platform
 
 class CTkTitleMenu(customtkinter.CTkToplevel):
         
@@ -19,10 +20,10 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         
         super().__init__()
 
-        if not sys.platform.startswith("win"):
+        if not platform.startswith("win"):
             raise OSError("This title menu works only in windows platform, not supported on your system! \nTry the CTkMenuBar instead...")
         
-        self.after(10)
+        #self.after(10)
         self.master = master
         master_type = self.master.winfo_name()
         
@@ -36,8 +37,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
             raise TypeError("Only root windows/toplevels can be passed as the master!")
         
         self.master.minsize(200,100)
-        self.after(100, lambda: self.overrideredirect(True))
-        
+        self.overrideredirect(True)
         if title_bar_color=="default":
             if customtkinter.get_appearance_mode()=="Light":
                 title_bar_color = 0xFFFFFF # RGB order: 0xrrggbb             
@@ -52,7 +52,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
 
         self.config(background=self.transparent_color)
         self.caption_color = title_bar_color
-        self.change_header_color(self.caption_color)
+
         self.x_offset = 40 if x_offset is None else x_offset
         self.y_offset = 6 if y_offset is None else y_offset
         self.width = width
@@ -66,7 +66,8 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
                         self.x_offset += 7
             
         self.padding = padx
-  
+        if "zoomed" not in self.master.state():
+            self.master.after(400,lambda:(self.master.state("zoomed"),self.master.state("normal")))#fixed focus problem why idk
         self.master.bind("<Configure>", lambda _: self.change_dimension())
         self.master.bind("<Destroy>", lambda _: super().destroy() if not self.master.winfo_viewable() else None)
         self.num = 0
@@ -79,7 +80,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         else:
             self.caption_color = 0x303030 # RGB order: 0xrrggbb
 
-        self.change_header_color(self.caption_color)
+
         
     def add_cascade(self, text=None, postcommand=None, **kwargs):
     
@@ -122,7 +123,7 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         self.geometry(f"{width}x{height}+{x}+{y}")
         self.deiconify()
  
-    def change_header_color(self, caption_color):
+    """def change_header_color(self, caption_color):
         try:
             from ctypes import windll, byref, sizeof, c_int
             # optional feature to change the header in windows 11
@@ -130,3 +131,4 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
             DWMWA_CAPTION_COLOR = 35
             windll.dwmapi.DwmSetWindowAttribute(HWND, DWMWA_CAPTION_COLOR, byref(c_int(caption_color)), sizeof(c_int))
         except: None
+"""
