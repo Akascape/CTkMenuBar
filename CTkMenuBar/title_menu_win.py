@@ -66,7 +66,8 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
                         self.x_offset += 7
             
         self.padding = padx
-  
+        if "zoomed" not in self.master.state():
+            self.master.after(400,lambda:(self.master.state("zoomed"),self.master.state("normal")))#fixed focus problem why idk
         self.master.bind("<Configure>", lambda _: self.change_dimension())
         self.master.bind("<Destroy>", lambda _: super().destroy() if not self.master.winfo_viewable() else None)
         self.num = 0
