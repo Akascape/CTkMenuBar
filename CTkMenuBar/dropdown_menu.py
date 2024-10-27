@@ -180,6 +180,14 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         return submenu
+
+    def delete_option(self, text_option: str):
+        for i, options in enumerate(self._options_list):
+            if options.cget('text') == text_option:
+                self._options_list.pop(i)
+                options.destroy()
+                break
+        raise IndexError('There is no Option with this text!')
         
     def _left(self, parent):
   
