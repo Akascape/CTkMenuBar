@@ -1,7 +1,6 @@
 """
 MenuBar widget for customtkinter
-by Akascape
-License: MIT
+by Akascape
 Homepage: https://github.com/Akascape/CTkMenuBar
 """
 
