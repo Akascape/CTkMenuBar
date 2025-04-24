@@ -24,7 +24,7 @@ pip install CTkMenuBar
 from CTkMenuBar import *
 ...
 menu = CTkMenuBar(master=root)
-menu.add_cascade("Menu")
+button = menu.add_cascade("Menu")
 ...
 ```
 
@@ -55,7 +55,7 @@ _This title menu is only supported in windows OS!_
 from CTkMenuBar import *
 ...
 menu = CTkTitleMenu(master=root)
-menu.add_cascade("Menu")
+button = menu.add_cascade("Menu")
 ...
 ```
 
