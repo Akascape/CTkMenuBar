@@ -59,6 +59,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
                  cursor: str = "hand2",
                  **kwargs):
         
+        self.option = None
         if widget.master.winfo_name().startswith("!ctktitlemenu"):
             widget.master.master.bind("<ButtonPress>", self._checkIfMouseLeft, add="+")
             widget.master.master.bind("<Button-1>", self._checkIfMouseLeft, add="+")
@@ -123,7 +124,8 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             text_color=self.text_color,
             command=partial(self.selectOption, command), **kwargs)
         optionButton.configure(cursor=self.cursor)
-                          
+        self.option = option
+
         optionButton.setParentMenu(self)
         self._options_list.append(optionButton)
         self._configureButton(optionButton)
@@ -180,6 +182,14 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
         return submenu
+
+    def delete_option(self, text_option: str):
+        for i, options in enumerate(self._options_list):
+            if options.cget('text') == text_option:
+                self._options_list.pop(i)
+                options.destroy()
+                break
+        raise IndexError('There is no Option with this text!')
         
     def _left(self, parent):
   
@@ -377,6 +387,9 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
     def cget(self, param):
         if param=="hover_color":
             return self.hover_color
+
+        if param=="option":
+            return self.option
 
         if param=="font":
             return self.font
