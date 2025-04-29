@@ -115,3 +115,5 @@ submenu.add_option(option="value")
 | _*other frame parameters_ | other ctk frame parameters can also be passed |
 
 _Credits goes to [LucianoSaldivia](https://github.com/LucianoSaldivia) for providing this dropdown menu class._
+
+_Credits goes to [MustafaHilmiYAVUZHAN](https://github.com/MustafaHilmiYAVUZHAN) for optimized title menu._
