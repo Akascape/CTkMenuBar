@@ -168,8 +168,6 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
         submenu.is_submenu = True
         
         submenu.bind("<Enter>", lambda e, sub=self: self.change_hover(self), add="+")
-        submenuButtonSeed.bind("<Enter>", lambda e, sub=submenu, button=submenuButtonSeed: self.after(500, lambda: sub._show_submenu(self, button)), add="+")
-        submenuButtonSeed.bind("<Leave>", lambda e, sub=submenu: self.after(500, lambda: sub._left(self)), add="+")
         
         submenuButtonSeed.configure(cursor=self.cursor)
         
@@ -179,6 +177,20 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             expand=True,
             padx=3+(self.corner_radius/5),
             pady=3+(self.corner_radius/5))
+        
+        submenu._timer_id = None
+        def show_submenu_delayed():
+            if submenu._timer_id:
+                self.after_cancel(submenu._timer_id)
+            submenu._timer_id = self.after(500, lambda: submenu._show_submenu(self, submenuButtonSeed))
+        
+        def hide_submenu_delayed():
+            if submenu._timer_id:
+                self.after_cancel(submenu._timer_id)
+            submenu._timer_id = self.after(500, lambda: submenu._left(self))
+        
+        submenuButtonSeed.bind("<Enter>", lambda e: show_submenu_delayed(), add="+")
+        submenuButtonSeed.bind("<Leave>", lambda e: hide_submenu_delayed(), add="+")
         return submenu
         
     def _left(self, parent):
