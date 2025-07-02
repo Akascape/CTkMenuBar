@@ -31,6 +31,8 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         elif master_type.startswith("!ctktoplevel"):
             pass
         elif master_type.startswith("!toplevel"):
+            pass
+        elif isinstance(self.master, customtkinter.CTkToplevel):
             pass        
         else:
             raise TypeError("Only root windows/toplevels can be passed as the master!")
