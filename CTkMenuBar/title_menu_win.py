@@ -4,6 +4,7 @@ Author: Akash Bora
 """
 
 import customtkinter
+import tkinter as tk
 import sys
 
 class CTkTitleMenu(customtkinter.CTkToplevel):
@@ -31,7 +32,11 @@ class CTkTitleMenu(customtkinter.CTkToplevel):
         elif master_type.startswith("!ctktoplevel"):
             pass
         elif master_type.startswith("!toplevel"):
+            pass
+        elif isinstance(self.master, customtkinter.CTkToplevel):
             pass        
+        elif isinstance(self.master, tk.Toplevel):
+            pass
         else:
             raise TypeError("Only root windows/toplevels can be passed as the master!")
         
